@@ -13,6 +13,7 @@ namespace CoreConsoleAppLogging
 
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddScoped<ILoggerFactory, LoggerFactory>();
+            serviceCollection.AddScoped<IDoSomething, DoSomething>();
 
             var configuration = GetConfiguration();
 
@@ -21,6 +22,11 @@ namespace CoreConsoleAppLogging
             serviceCollection.AddSingleton<IConfiguration>(configuration);
 
             Logger.Information("Hello Logging!");
+
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+
+            var doSomethingService = serviceProvider.GetService<IDoSomething>();
+            doSomethingService.BeProductive();
 
             Console.ReadLine();
         }
